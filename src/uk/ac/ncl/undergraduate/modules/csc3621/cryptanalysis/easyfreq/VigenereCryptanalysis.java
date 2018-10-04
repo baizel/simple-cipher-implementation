@@ -157,7 +157,7 @@ public class VigenereCryptanalysis {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
 
-
+        System.out.println(this.ciphertext);
 
 
         //</editor-fold> // END OF YOUR CODE

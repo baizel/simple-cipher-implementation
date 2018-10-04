@@ -23,12 +23,16 @@ public class VigenereCipher {
     public static String encrypt(String plaintext, String key) {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
-
-
-
-
+        StringBuilder cipherText = new StringBuilder();
+        for (int i = 0; i< plaintext.length(); i++){
+            int keyCounter = i % key.length();
+            int plainTextIndex = Util.charToIndex(plaintext.charAt(i));
+            int keyIndex = Util.charToIndex(key.charAt(keyCounter));
+            char cipherChar = Util.indexToChar((plainTextIndex+keyIndex) % 26);
+            cipherText.append(cipherChar);
+        }
+        return cipherText.toString();
         //</editor-fold> // END OF YOUR CODE
-        return "hello";
     }
 
     /**
@@ -47,9 +51,8 @@ public class VigenereCipher {
 
 
 
-
+        return null;
         //</editor-fold> // END OF YOUR CODE
-        return "hello";
     }
 
 }

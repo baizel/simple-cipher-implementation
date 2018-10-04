@@ -132,7 +132,6 @@ public class FrequencyCryptanalysis {
         }
 
         this.key = Util.charToIndex('E') - i;
-        System.out.println(i);
 
 
         //</editor-fold> // END OF YOUR CODE
