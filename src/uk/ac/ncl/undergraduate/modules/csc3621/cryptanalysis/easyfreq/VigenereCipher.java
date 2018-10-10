@@ -1,5 +1,7 @@
 package uk.ac.ncl.undergraduate.modules.csc3621.cryptanalysis.easyfreq;
 
+import javax.sql.rowset.serial.SerialStruct;
+
 /**
  * This class is capable of encrypt and decrypt according to the Vigen&egrave;re
  * cipher.
@@ -17,19 +19,26 @@ public class VigenereCipher {
      * TODO: Complete the Vigen&egrave;re encryption function.
      *
      * @param plaintext the plaintext to encrypt
-     * @param key the encryption key
+     * @param key       the encryption key
      * @return the ciphertext according with the Vigen&egrave;re cipher.
      */
     public static String encrypt(String plaintext, String key) {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
         StringBuilder cipherText = new StringBuilder();
-        for (int i = 0; i< plaintext.length(); i++){
-            int keyCounter = i % key.length();
-            int plainTextIndex = Util.charToIndex(plaintext.charAt(i));
-            int keyIndex = Util.charToIndex(key.charAt(keyCounter));
-            char cipherChar = Util.indexToChar((plainTextIndex+keyIndex) % 26);
-            cipherText.append(cipherChar);
+        for (int i = 0; i < plaintext.length(); i++) {
+            if (Util.isValidLetter(plaintext.charAt(i))) {
+                int keyCounter = i % key.length();
+
+                int plainTextIndex = Util.charToIndex(plaintext.charAt(i));
+                int keyIndex = Util.charToIndex(key.charAt(keyCounter));
+
+                int encryptedIndex = (plainTextIndex + keyIndex) % 26;
+                char cipherChar = Util.indexToChar(encryptedIndex);
+
+                cipherText.append(cipherChar);
+            }
+            //else ignore spaces and punctuation. not sure if this is the right way to do it
         }
         return cipherText.toString();
         //</editor-fold> // END OF YOUR CODE
@@ -42,16 +51,35 @@ public class VigenereCipher {
      * TODO: Complete the Vigen&egrave;re decryption function.
      *
      * @param ciphertext the encrypted text
-     * @param key the encryption key
+     * @param key        the encryption key
      * @return the plaintext according with the Vigen&egrave;re cipher.
      */
     public static String decrypt(String ciphertext, String key) {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
 
+        StringBuilder decryptedText = new StringBuilder();
 
+        for (int i = 0; i < ciphertext.length(); i++) {
+            if (Util.isValidLetter(ciphertext.charAt(i))) {
+                int keyCounter = i % key.length();
 
-        return null;
+                int cipherIndex = Util.charToIndex(ciphertext.charAt(i));
+                int keyIndex = Util.charToIndex(key.charAt(keyCounter));
+
+                int decryptedIndex = (cipherIndex - keyIndex); // No need for mod by 26 as it will never go over 26
+                if (decryptedIndex < 0) {
+                    decryptedIndex += 26; // add 26 to the negative number to loop it back around
+                }
+
+                char decryptedChar = Util.indexToChar(decryptedIndex);
+                decryptedText.append(decryptedChar);
+            } else {
+                decryptedText.append((ciphertext.charAt(i)));
+            }
+        }
+
+        return decryptedText.toString();
         //</editor-fold> // END OF YOUR CODE
     }
 

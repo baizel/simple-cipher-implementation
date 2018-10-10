@@ -59,12 +59,13 @@ public class FrequencyAnalyser {
                 tracker[charIndex] = tracker[charIndex] + 1.0;
             }
         }
+
         double total = DoubleStream.of(tracker).sum();
-        char alpha;
-        for (alpha = 'A'; alpha<= 'Z'; alpha++){
-            double count = tracker[Util.charToIndex(alpha)];
+        char alphabet;
+        for (alphabet = 'A'; alphabet<= 'Z'; alphabet++){
+            double count = tracker[Util.charToIndex(alphabet)];
             double freq = count/total;
-            table.setFrequency(alpha,freq);
+            table.setFrequency(alphabet,freq);
         }
 
         return table;

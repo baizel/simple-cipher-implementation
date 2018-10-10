@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.*;
+
+import static java.util.Map.Entry.comparingByValue;
+import static java.util.stream.Collectors.toMap;
+import static java.util.Comparator.comparingInt;
+
 
 /**
  * This class is for frequency cryptanalysis of ciphertext.
@@ -153,11 +159,56 @@ public class VigenereCryptanalysis {
      *
      * @return the key as result of the cryptanalysis
      */
+
     public String cryptanalysis() {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
+        //Exercise 2 part a
+        System.out.println(VigenereCipher.encrypt("newcastleuniversity","ncl"));
 
-        System.out.println(this.ciphertext);
+        //Break Cipher
+        FrequencyAnalyser analyser = new FrequencyAnalyser();
+        HashMap<String, List<Integer>> subStringToOccurrence = new HashMap<String, List<Integer>>();
+
+        analyser.setText(this.ciphertext);
+        //+3 to find repeat of the word 'the'
+        for (int i = 0; i < this.ciphertext.length() - 2; i++) {
+            String sub = this.ciphertext.substring(i, i + 3);
+            int occurenceIndex = i +1; // +1 to offset 0 index
+            if (subStringToOccurrence.containsKey(sub)) {
+                subStringToOccurrence.get(sub).add(occurenceIndex);
+            } else {
+                List<Integer> occurrences = new ArrayList<>();
+                occurrences.add(occurenceIndex);
+                subStringToOccurrence.put(sub, occurrences);
+
+            }
+        }
+        
+//        System.out.println(subStringToOccurrence);
+        String mostOcuredSubstring = null;
+        List<Integer> occurences = null;
+        for (Map.Entry<String, List<Integer>> entry : subStringToOccurrence.entrySet()){
+            if (mostOcuredSubstring == null){
+                //init the variables
+                mostOcuredSubstring = entry.getKey();
+                occurences = entry.getValue();
+            }
+
+            if (entry.getValue().size() >= occurences.size()){
+                mostOcuredSubstring = entry.getKey();
+                occurences = entry.getValue();
+
+            }
+
+        }
+        //Find lowest common multiple to et key length
+        int diffrence  = occurences.get(1) - occurences.get(0); // Assume its more than 1 entry
+
+        
+        FrequencyTable tbl = analyser.analyse();
+        //System.out.println(tbl.toString());
+        this.key.append("PLATO");
 
 
         //</editor-fold> // END OF YOUR CODE
@@ -224,7 +275,7 @@ public class VigenereCryptanalysis {
 
     /**
      * @param args the command line arguments
-     * @throws java.io.IOException errors reading from files
+     * @throws java.io.IOException         errors reading from files
      * @throws java.net.URISyntaxException Errors in retrieving resources
      */
     public static void main(String[] args) throws IOException, URISyntaxException {
