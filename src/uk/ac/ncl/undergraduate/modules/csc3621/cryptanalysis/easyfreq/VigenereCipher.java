@@ -26,9 +26,10 @@ public class VigenereCipher {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
         StringBuilder cipherText = new StringBuilder();
+        int count = 0;
         for (int i = 0; i < plaintext.length(); i++) {
             if (Util.isValidLetter(plaintext.charAt(i))) {
-                int keyCounter = i % key.length();
+                int keyCounter = count % key.length();
 
                 int plainTextIndex = Util.charToIndex(plaintext.charAt(i));
                 int keyIndex = Util.charToIndex(key.charAt(keyCounter));
@@ -37,6 +38,7 @@ public class VigenereCipher {
                 char cipherChar = Util.indexToChar(encryptedIndex);
 
                 cipherText.append(cipherChar);
+                count++;
             }
             //else ignore spaces and punctuation. not sure if this is the right way to do it
         }
@@ -59,10 +61,10 @@ public class VigenereCipher {
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
 
         StringBuilder decryptedText = new StringBuilder();
-
+        int count =0;
         for (int i = 0; i < ciphertext.length(); i++) {
             if (Util.isValidLetter(ciphertext.charAt(i))) {
-                int keyCounter = i % key.length();
+                int keyCounter = count % key.length();
 
                 int cipherIndex = Util.charToIndex(ciphertext.charAt(i));
                 int keyIndex = Util.charToIndex(key.charAt(keyCounter));
@@ -74,6 +76,7 @@ public class VigenereCipher {
 
                 char decryptedChar = Util.indexToChar(decryptedIndex);
                 decryptedText.append(decryptedChar);
+                count++;
             } else {
                 decryptedText.append((ciphertext.charAt(i)));
             }
