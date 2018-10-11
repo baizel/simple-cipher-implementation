@@ -120,19 +120,18 @@ public class FrequencyCryptanalysis {
         FrequencyAnalyser analyser = new FrequencyAnalyser();
         analyser.setText(this.ciphertext);
         FrequencyTable frequencyTable = analyser.analyse();
-        double[] tbl = frequencyTable.getTable();
+        double[] rawTable = frequencyTable.getTable();
 
-        Arrays.sort(tbl);
-        double max = tbl[tbl.length-1];
+        Arrays.sort(rawTable);
+        double highestFrequency = rawTable[rawTable.length - 1];
 
-        int i;
-        for (i =0; i<tbl.length; i++){
-            if (frequencyTable.getTable()[i] == max)
+        int highestFrequencyCharIndex;
+        for (highestFrequencyCharIndex = 0; highestFrequencyCharIndex < rawTable.length; highestFrequencyCharIndex++) {
+            if (frequencyTable.getTable()[highestFrequencyCharIndex] == highestFrequency)
                 break;
         }
 
-        this.key = Util.charToIndex('E') - i;
-
+        this.key = highestFrequencyCharIndex - Util.charToIndex('E');
 
         //</editor-fold> // END OF YOUR CODE
         // The following code allows you to manually adjust your result.
@@ -195,15 +194,15 @@ public class FrequencyCryptanalysis {
         //<editor-fold defaultstate="collapsed" desc="Write your code here
         // below!">+
         StringBuilder decryptedTxt = new StringBuilder();
-        for (int i = 0; i <this.ciphertext.length(); i++){
+        for (int i = 0; i < this.ciphertext.length(); i++) {
             if (Util.isValidLetter(this.ciphertext.charAt(i))) {
                 int index = Util.charToIndex(this.ciphertext.charAt(i));
-                int decryptedIndex = index + this.key;
+                int decryptedIndex = index - this.key;
 
-                if (decryptedIndex < 0 ){
-                    decryptedIndex = 26 + decryptedIndex;
+                if (decryptedIndex < 0) {
+                    decryptedIndex += 26;
                 }
-                if (decryptedIndex > 26){
+                if (decryptedIndex > 26) {
                     decryptedIndex = decryptedIndex % 26;
                 }
 
@@ -231,7 +230,7 @@ public class FrequencyCryptanalysis {
 
     /**
      * @param args the command line arguments
-     * @throws java.io.IOException errors reading from files
+     * @throws java.io.IOException         errors reading from files
      * @throws java.net.URISyntaxException Errors in retrieving resources
      */
     public static void main(String[] args) throws IOException, URISyntaxException {

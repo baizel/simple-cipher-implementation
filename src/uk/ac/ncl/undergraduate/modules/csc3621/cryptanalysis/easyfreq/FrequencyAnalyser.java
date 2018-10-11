@@ -37,7 +37,7 @@ public class FrequencyAnalyser {
     /**
      * This method returns a frequency table as a result of the analysis of the
      * text.
-     *
+     * <p>
      * TODO: complete the function that conduct a frequency analysis of the
      * internal buffer and produce a frequency table based on the analysis.
      * Please, write your code between the comments as appropriate.
@@ -47,25 +47,24 @@ public class FrequencyAnalyser {
     public FrequencyTable analyse() {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
-
+        //Tracker is an array that keeps count of each index
         double[] tracker = new double[26];
         FrequencyTable table = new FrequencyTable();
         String text = this.getText();
 
-        for (int i  =0; i< text.length(); i++){
+        for (int i = 0; i < text.length(); i++) {
             char letter = text.charAt(i);
-            if (Util.isValidLetter(letter)){
+            if (Util.isValidLetter(letter)) {
                 int charIndex = Util.charToIndex(letter);
                 tracker[charIndex] = tracker[charIndex] + 1.0;
             }
         }
 
-        double total = DoubleStream.of(tracker).sum();
-        char alphabet;
-        for (alphabet = 'A'; alphabet<= 'Z'; alphabet++){
-            double count = tracker[Util.charToIndex(alphabet)];
-            double freq = count/total;
-            table.setFrequency(alphabet,freq);
+        double totalNumberOfLetters = DoubleStream.of(tracker).sum();
+        for (char i = 'A'; i <= 'Z'; i++) {
+            double letterCount = tracker[Util.charToIndex(i)];
+            double freq = letterCount / totalNumberOfLetters;
+            table.setFrequency(i, freq);
         }
 
         return table;

@@ -8,7 +8,7 @@ import javax.sql.rowset.serial.SerialStruct;
  *
  * @author Changyu Dong
  * @author Roberto Metere
- * @author Your Name
+ * @author Baizel Mathew
  */
 public class VigenereCipher {
 
