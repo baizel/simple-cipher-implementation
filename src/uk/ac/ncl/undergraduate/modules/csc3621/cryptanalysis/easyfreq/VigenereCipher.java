@@ -39,8 +39,9 @@ public class VigenereCipher {
 
                 cipherText.append(cipherChar);
                 count++;
+            } else {
+                cipherText.append(plaintext.charAt(i));
             }
-            //else ignore spaces and punctuation. not sure if this is the right way to do it
         }
         return cipherText.toString();
         //</editor-fold> // END OF YOUR CODE

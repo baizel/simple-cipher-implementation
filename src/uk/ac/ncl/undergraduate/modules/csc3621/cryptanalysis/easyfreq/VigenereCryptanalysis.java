@@ -158,13 +158,39 @@ public class VigenereCryptanalysis {
     public String cryptanalysis() {
         // Please, do not remove the editor-fold comments.
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
-        //Exercise 2 part a
-        System.out.println(VigenereCipher.encrypt("newcastleuniversity", "ncl"));
+        //Exercise 2 part 1
+        System.out.println("Exercise 2 part 1");
+        String plainText = "newcastleuniversity";
+        String key = "ncl";
+        System.out.println("Plain Text: '" + plainText + "' \nkey: '" + key + "' \ncipher text: " + VigenereCipher.encrypt("newcastleuniversity", "ncl"));
 
-        //Break Cipher
+        //Exercise 2 part 2
+        System.out.println("\nExercise 2 part 2");
+        try {
+            String mainPath = Paths.get(FrequencyCryptanalysis.class.getResource("/").toURI()).toString();
+            String plaintextFilePath = mainPath + "/res/pg1661.txt";
+            plainText = Util.readFileToBuffer(plaintextFilePath);
+            String cipherTxt  = VigenereCipher.encrypt(plainText,key);
+            String decrypted = VigenereCipher.decrypt(cipherTxt,key);
+            String decryptedStriped, plainTextStripped = null;
+            decryptedStriped = decrypted.toUpperCase().replace(" ","");
+            plainTextStripped = plainText.toUpperCase().replace(" ","");
+            System.out.println("Is decrypted text and plain text exactly equal: "+ plainTextStripped.equals(decryptedStriped));
+            FrequencyAnalyser analyser = new FrequencyAnalyser();
+            analyser.setText(cipherTxt);
+            System.out.println(analyser.analyse());
+            // comparison of this frequency analysis with exercise 1 will be in the report
+
+        } catch (IOException e) {
+            System.out.println("Error reading pg1661.txt file. Error: " + e.getLocalizedMessage());
+        } catch (URISyntaxException e) {
+            System.out.println("Error while converting uri, Error " + e.getLocalizedMessage());
+        }
+        System.out.println(); // empty line for aesthetics
+
+        //Exercise 2 part 4
         VigenereCipherBreaker breaker = new VigenereCipherBreaker(this.ciphertext);
         this.key.append(breaker.findKey());
-
 
         //</editor-fold> // END OF YOUR CODE
         // The following code allows you to manually adjust your result.
