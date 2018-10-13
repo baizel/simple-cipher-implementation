@@ -202,10 +202,8 @@ public class FrequencyCryptanalysis {
                 if (decryptedIndex < 0) {
                     decryptedIndex += 26;
                 }
-                if (decryptedIndex > 26) {
-                    decryptedIndex = decryptedIndex % 26;
-                }
-
+                // No need to mod by 26 as key max will be 26, therefore
+                // decryptedIndex will never be above 0
                 decryptedTxt.append(Util.indexToChar(decryptedIndex));
             } else {
                 decryptedTxt.append(this.ciphertext.charAt(i));

@@ -11,18 +11,28 @@ import java.util.*;
  */
 public class VigenereCipherBreaker {
 
-    private String cipherText;
+    private String cipherText = null;
 
     public VigenereCipherBreaker(String cipherText) {
+        this.cipherText = cipherText;
+    }
+    public VigenereCipherBreaker() {}
+
+    public void setCipherText(String cipherText) {
         this.cipherText = cipherText;
     }
 
     /**
      * This method does a frequency analysis on every nth letter where n is key length to work out the key
+     * cipher text must be set before calling this method.
      *
      * @return the key as a string
+     * @throws IllegalArgumentException if cipherText is not set
      */
-    public String findKey() {
+    public String findKey() throws IllegalArgumentException{
+        if (this.cipherText == null){
+            throw new IllegalArgumentException("Cipher text not set!");
+        }
         int keyLength = findKeyLength();
         StringBuilder key = new StringBuilder();
         FrequencyAnalyser analyser = new FrequencyAnalyser();
@@ -97,7 +107,7 @@ public class VigenereCipherBreaker {
     private Map<String, List<Integer>> getMostCommonTrigram() {
 
         FrequencyAnalyser analyser = new FrequencyAnalyser();
-        HashMap<String, List<Integer>> subStringToOccurrence = new HashMap<String, List<Integer>>();
+        HashMap<String, List<Integer>> subStringToOccurrence = new HashMap<>();
 
         analyser.setText(this.cipherText);
         for (int i = 0; i < this.cipherText.length() - 2; i++) {
