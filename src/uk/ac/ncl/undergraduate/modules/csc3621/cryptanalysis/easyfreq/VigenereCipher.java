@@ -62,7 +62,7 @@ public class VigenereCipher {
         //<editor-fold defaultstate="collapsed" desc="Write your code here below!">
 
         StringBuilder decryptedText = new StringBuilder();
-        int count =0;
+        int count = 0;
         for (int i = 0; i < ciphertext.length(); i++) {
             if (Util.isValidLetter(ciphertext.charAt(i))) {
                 int keyCounter = count % key.length();

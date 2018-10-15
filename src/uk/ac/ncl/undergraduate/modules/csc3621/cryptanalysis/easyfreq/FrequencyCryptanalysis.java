@@ -132,7 +132,10 @@ public class FrequencyCryptanalysis {
         }
 
         this.key = highestFrequencyCharIndex - Util.charToIndex('E');
-
+        if (this.key < 0) {
+            //add 26 to loop key back around
+            this.key += 26;
+        }
         //</editor-fold> // END OF YOUR CODE
         // The following code allows you to manually adjust your result.
         if (this.interactive) {

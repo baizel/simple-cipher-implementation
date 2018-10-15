@@ -16,7 +16,9 @@ public class VigenereCipherBreaker {
     public VigenereCipherBreaker(String cipherText) {
         this.cipherText = cipherText;
     }
-    public VigenereCipherBreaker() {}
+
+    public VigenereCipherBreaker() {
+    }
 
     public void setCipherText(String cipherText) {
         this.cipherText = cipherText;
@@ -29,11 +31,12 @@ public class VigenereCipherBreaker {
      * @return the key as a string
      * @throws IllegalArgumentException if cipherText is not set
      */
-    public String findKey() throws IllegalArgumentException{
-        if (this.cipherText == null){
+    public String findKey() throws IllegalArgumentException {
+        if (this.cipherText == null) {
             throw new IllegalArgumentException("Cipher text not set!");
         }
         int keyLength = findKeyLength();
+        System.out.println("Key Length: " + keyLength);
         StringBuilder key = new StringBuilder();
         FrequencyAnalyser analyser = new FrequencyAnalyser();
         for (int j = 0; j < keyLength; j++) {
@@ -65,35 +68,36 @@ public class VigenereCipherBreaker {
     /**
      * This method finds the key length by looking at the most repeated trigram
      * and then uses the difference form occurred index to work out the lowest multiple.
+     *
      * @return key length as an int
      */
     private int findKeyLength() {
         Map<String, List<Integer>> subStringToOccurrence = getMostCommonTrigram();
 
         String mostOcuredSubstring = null;
-        List<Integer> occurences = null;
+        List<Integer> occurrences = null;
 
         for (Map.Entry<String, List<Integer>> entry : subStringToOccurrence.entrySet()) {
             if (mostOcuredSubstring == null) {
                 //init the variables
                 mostOcuredSubstring = entry.getKey();
-                occurences = entry.getValue();
+                occurrences = entry.getValue();
             }
 
-            if (entry.getValue().size() >= occurences.size()) {
+            if (entry.getValue().size() >= occurrences.size()) {
                 mostOcuredSubstring = entry.getKey();
-                occurences = entry.getValue();
+                occurrences = entry.getValue();
 
             }
 
         }
-
+        System.out.println("Most common trigram: '" + mostOcuredSubstring + "' with " + occurrences.size() + " occurrences");
         int multiple = 0;
         List<Integer> listOfGCDs = new ArrayList<>();
-        //gets gcd of every pair
-        for (int i = 0; i < occurences.size() - 2; i++) {
-            int a = occurences.get(i + 1) - occurences.get(i);
-            int b = occurences.get(i + 2) - occurences.get(i + 1);
+        //gets GCD of every pair
+        for (int i = 0; i < occurrences.size() - 2; i++) {
+            int a = occurrences.get(i + 1) - occurrences.get(i);
+            int b = occurrences.get(i + 2) - occurrences.get(i + 1);
             listOfGCDs.add(gcd(a, b));
         }
         multiple = Collections.min(listOfGCDs);
@@ -102,6 +106,7 @@ public class VigenereCipherBreaker {
 
     /**
      * This method does an exhaustive search for every 3 letter words and then keeps a map with a list of index's
+     *
      * @return a map of the three letter words with a list of all index's where it has occurred
      */
     private Map<String, List<Integer>> getMostCommonTrigram() {
@@ -126,6 +131,7 @@ public class VigenereCipherBreaker {
 
     /**
      * Method to work out the the greatest common denominator of given two numbers
+     *
      * @param a first number
      * @param b second number
      * @return an int that is the GCD of a & b
